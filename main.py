@@ -4,6 +4,12 @@ try:
 except ImportError as error:
     print(error)
 
+# Import date time for human readable time.
+try:
+    import datetime
+except ImportError as error:
+    print(error)
+
 # Import matplotlib to create visualizations of speed.
 try:
     import matplotlib
@@ -23,7 +29,7 @@ except ImportError as error:
     print(error)
 
 # Local variables
-run_time_hours = 8
+run_time_hours = .1
 log_path = "./log/"
 
 # Logging basic config
@@ -37,10 +43,16 @@ logging.info("ISP Monitor START")
 start_epoc = time.time()
 
 # Convert run time into minutes.
-run_time_minutes = run_time_hours * 60
+run_time_seconds = run_time_hours * 60 * 60
 
-# Target stop time.
-end_epoc = start_epoc + run_time_minutes
+# Run monitor until time has expired.
+end_epoc = start_epoc + run_time_seconds
+
+# Convert to local time.
+datetime_time = datetime.datetime.fromtimestamp(end_epoc)
+
+# Display stop time to terminal.
+logging.info(f"ISP Monitor run until {datetime_time}")
 
 # Main loop.
 while time.time() <= end_epoc:
@@ -60,7 +72,7 @@ while time.time() <= end_epoc:
     logging.info(f"UP: {upload} MB DOWN: {download} MB")
 
     # We only want to check occasionally.
-    time.sleep(10)
+    time.sleep(30)
 
 
 
