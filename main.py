@@ -29,7 +29,7 @@ except ImportError as error:
     print(error)
 
 # Local variables
-run_time_hours = .1
+run_time_hours = 8
 log_path = "./log/"
 
 # Logging basic config
@@ -58,7 +58,10 @@ logging.info(f"ISP Monitor run until {datetime_time}")
 while time.time() <= end_epoc:
 
     # Remote speed test.
-    speed = speedtest.Speedtest()
+    try:
+        speed = speedtest.Speedtest()
+    except:
+        print("Unable to perform speedtest()")
 
     # Upload / download in megabytes.
     upload = speed.upload() / 1024 / 1024
