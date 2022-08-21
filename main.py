@@ -1,4 +1,6 @@
 # ISP speed monitor
+# Samples and logs upload and download speeds over a fixed time period to csv.
+# 2022 Eric Hedstrom
 
 # Import speedtest.net's speedtest-cli module.
 try:
