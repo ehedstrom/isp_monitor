@@ -31,8 +31,7 @@ except ImportError as error:
     print(error)
 
 # Local variables
-# This script will run for X hours.
-run_time_hours = 8
+run_time_hours = 8     # This script will run for X hours.
 variable_delay = 30    # Seconds between tests.
 
 # Current date/time for log name. If today exists it will append.
