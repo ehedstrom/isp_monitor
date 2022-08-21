@@ -33,6 +33,9 @@ except ImportError as error:
 # Local variables
 # This script will run for X hours.
 run_time_hours = 8
+variable_delay = 30    # Seconds between tests.
+
+# Current date/time for log name. If today exists it will append.
 current_date = str(datetime.datetime.today().strftime('%Y-%m-%d'))
 
 # Log information and configuration
@@ -41,6 +44,7 @@ log_path = "./log/" + log_name
 log_enabled = True
 
 
+# Main loop.
 def main():
     # Open an existing log or create a new one.
     if log_enabled:
@@ -93,7 +97,7 @@ def main():
                 speed_log.write(text)
 
         # We only want to check occasionally.
-        time.sleep(30)
+        time.sleep(variable_delay)
 
 
 # Run if not imported.
