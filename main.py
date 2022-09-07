@@ -2,12 +2,6 @@
 # Samples and logs upload and download speeds over a fixed time period to csv.
 # 2022 Eric Hedstrom
 
-# Import speedtest.net's speedtest-cli module.
-try:
-    import speedtest
-except ImportError as error:
-    print(error)
-
 # Import date time for human-readable time.
 try:
     import datetime
@@ -22,7 +16,7 @@ except ImportError as error:
 
 # Import matplotlib to create visualizations of speed.
 try:
-    import matplotlib
+    import matplotlib.pyplot as plt
 except ImportError as error:
     print(error)
 
@@ -32,8 +26,14 @@ try:
 except ImportError as error:
     print(error)
 
+# Import speedtest.net's speedtest-cli module.
+try:
+    import speedtest
+except ImportError as error:
+    print(error)
+
 # Local variables
-run_time_hours = 8     # This script will run for X hours.
+run_time_hours = .1     # This script will run for X hours.
 variable_delay = 30    # Seconds between tests.
 
 # Current date/time for log name. If today exists it will append.
@@ -50,7 +50,7 @@ def main():
     # Open an existing log or create a new one.
     if log_enabled:
         with open(log_path, "a+") as speed_log:
-            text = str(log_name + " LOG START UP, DOWN \n")
+            text = str(log_name + "[LOG START] UP, DOWN \n")
             speed_log.write(text)
 
     # Logging basic config.
@@ -77,11 +77,16 @@ def main():
 
     while time.time() <= end_epoc:
         # Remote speed test.
-        speed = speedtest.Speedtest()
+        try:
+            speed = speedtest.Speedtest()
+            # Upload / download in megabytes.
+            upload = speed.upload() / 1024 / 1024
+            download = speed.download() / 1024 / 1024
 
-        # Upload / download in megabytes.
-        upload = speed.upload() / 1024 / 1024
-        download = speed.download() / 1024 / 1024
+        except IndexError:
+            print(f"NO CONNECTION")
+            speed.upload = 0
+            speed.download = 0
 
         # Clean the numbers up for a human to view.
         download = str(round(download, 1))
@@ -104,7 +109,5 @@ def main():
 # Run if not imported.
 if __name__ == "__main__":
     main()
-
-
 
 
